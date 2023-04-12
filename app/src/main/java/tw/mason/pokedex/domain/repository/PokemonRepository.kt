@@ -1,14 +1,14 @@
 package tw.mason.pokedex.domain.repository
 
 import tw.mason.pokedex.common.Results
-import tw.mason.pokedex.domain.model.Pokemon
-import tw.mason.pokedex.domain.model.PokemonList
+import tw.mason.pokedex.data.remote.dto.PokemonListDto
+import tw.mason.pokedex.domain.model.PokemonInfo
 
 
 interface PokemonRepository {
 
-    suspend fun getPokemonList(limit: Int, offset: Int): Results<PokemonList>
+    suspend fun getPokemon(limit: Int, offset: Int): Results<PokemonListDto>
 
-    suspend fun getPokemonInfo(name: String): Results<Pokemon>
+    suspend fun getPokemonInfo(name: String): Results<PokemonInfo>
 }
 

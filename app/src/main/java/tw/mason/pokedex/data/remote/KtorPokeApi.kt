@@ -16,7 +16,9 @@ import tw.mason.pokedex.data.remote.dto.PokemonListDto
 object KtorPokeApi: PokeApi {
 
     private val client = HttpClient(OkHttp) {
-        install(Logging)
+        install(Logging) {
+            level = LogLevel.ALL
+        }
         defaultRequest {
             url {
                 protocol = URLProtocol.HTTPS

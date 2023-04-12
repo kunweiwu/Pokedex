@@ -60,14 +60,19 @@ class PokemonListViewModel constructor(
         viewModelScope.launch {
             isLoading.value = true
             val offset = currentPage * PAGE_SIZE
-            val result = repository.getPokemonList(PAGE_SIZE, offset)
+            val result = repository.getPokemon(PAGE_SIZE, offset)
             when (result) {
                 is Results.Success -> {
                     endReached.value = offset >= result.data.count
-                    val pokedexEntries = result.data.list.mapIndexed { index, entry ->
+                    val pokedexEntries = result.data.results.mapIndexed { index, entry ->
+                        val number = if (entry.url.endsWith("/")) {
+                            entry.url.dropLast(1).takeLastWhile { it.isDigit() }
+                        } else {
+                            entry.url.takeLastWhile { it.isDigit() }
+                        }.toInt()
                         val url =
-                            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${entry.id}.png"
-                        PokedexListEntry(entry.name, url, entry.id)
+                            "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/$number.png"
+                        PokedexListEntry(entry.name, url, number)
                     }
                     currentPage++
 

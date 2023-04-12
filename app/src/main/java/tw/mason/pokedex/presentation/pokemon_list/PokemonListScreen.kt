@@ -18,26 +18,23 @@ import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import org.koin.androidx.compose.koinViewModel
 import tw.mason.pokedex.R
 import tw.mason.pokedex.data.model.PokedexListEntry
-import tw.mason.pokedex.presentation.PokedexRouter
 import java.util.*
 
 
 @Composable
 fun PokemonListScreen(
-    navController: NavController,
+    navigateToDetail: (dominantColor: Color, pokemonName: String) -> Unit,
     viewModel: PokemonListViewModel = koinViewModel()
 ) {
     Surface(
@@ -62,7 +59,7 @@ fun PokemonListScreen(
                 viewModel.searchPokemonList(it)
             }
             Spacer(modifier = Modifier.height(16.dp))
-            PokemonList(navController = navController)
+            PokemonList(navigateToDetail = navigateToDetail)
         }
     }
 }
@@ -96,7 +93,7 @@ fun SearchBar(
                 .background(Color.White, CircleShape)
                 .padding(horizontal = 20.dp, vertical = 12.dp)
                 .onFocusChanged {
-                    isHintDisplayed = !it.isFocused && text.isNotEmpty()
+                    isHintDisplayed = !it.isFocused && text.isEmpty()
                 }
         )
         if (isHintDisplayed) {
@@ -111,7 +108,7 @@ fun SearchBar(
 
 @Composable
 fun PokemonList(
-    navController: NavController,
+    navigateToDetail: (dominantColor: Color, pokemonName: String) -> Unit,
     viewModel: PokemonListViewModel = koinViewModel()
 ) {
     val pokemonList by remember { viewModel.pokemonList }
@@ -130,7 +127,11 @@ fun PokemonList(
             if (it >= itemCount - 1 && !endReached && !isLoading && !isSearching) {
                 viewModel.loadPokemonPaginated()
             }
-            PokedexRow(rowIndex = it, entries = pokemonList, navController = navController)
+            PokedexRow(
+                navigateToDetail = navigateToDetail,
+                rowIndex = it,
+                entries = pokemonList
+            )
         }
     }
 
@@ -151,9 +152,9 @@ fun PokemonList(
 
 @Composable
 fun PokedexEntry(
+    navigateToDetail: (dominantColor: Color, pokemonName: String) -> Unit,
     entry: PokedexListEntry,
-    navController: NavController,
-    modifier: Modifier = Modifier,
+    modifier: Modifier,
     viewModel: PokemonListViewModel = koinViewModel()
 ) {
     val defaultDominantColor = MaterialTheme.colors.surface
@@ -175,9 +176,7 @@ fun PokedexEntry(
                 )
             )
             .clickable {
-                val route =
-                    PokedexRouter.Detail.buildRoute(dominantColor.toArgb(), entry.pokemonName)
-                navController.navigate(route)
+                navigateToDetail(dominantColor, entry.pokemonName)
             },
     ) {
         Column {
@@ -212,22 +211,22 @@ fun PokedexEntry(
 
 @Composable
 fun PokedexRow(
+    navigateToDetail: (dominantColor: Color, pokemonName: String) -> Unit,
     rowIndex: Int,
-    entries: List<PokedexListEntry>,
-    navController: NavController
+    entries: List<PokedexListEntry>
 ) {
     Column {
         Row {
             PokedexEntry(
                 entry = entries[rowIndex * 2],
-                navController = navController,
+                navigateToDetail = navigateToDetail,
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(16.dp))
             if (entries.size >= rowIndex * 2 + 2) {
                 PokedexEntry(
                     entry = entries[rowIndex * 2 + 1],
-                    navController = navController,
+                    navigateToDetail = navigateToDetail,
                     modifier = Modifier.weight(1f)
                 )
             } else {
