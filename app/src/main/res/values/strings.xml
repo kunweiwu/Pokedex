@@ -4,4 +4,5 @@
     <string name="meter">m</string>
     <string name="normal">normal</string>
     <string name="fire">fire</string>
+    <string name="base_stats">Base stats:</string>
 </resources>

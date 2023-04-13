@@ -45,7 +45,8 @@ fun PokemonDto.toPokemonInfo(): PokemonInfo {
         },
         stats = stats.map {
             PokemonStats(
-                name = it.stat.name
+                name = it.stat.name,
+                baseStat = it.baseStat
             )
         },
         wight = weight,

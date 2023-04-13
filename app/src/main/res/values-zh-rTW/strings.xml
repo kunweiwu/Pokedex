@@ -5,4 +5,5 @@
     <string name="meter">公尺</string>
     <string name="normal">一般</string>
     <string name="fire">火</string>
+    <string name="base_stats">種族值</string>
 </resources>
