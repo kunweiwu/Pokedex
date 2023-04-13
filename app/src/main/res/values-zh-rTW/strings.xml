@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pokedex</string>
+    <string name="kg">公斤</string>
+    <string name="meter">公尺</string>
+    <string name="normal">一般</string>
+    <string name="fire">火</string>
+</resources>

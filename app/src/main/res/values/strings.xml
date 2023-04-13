@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Pokedex</string>
+    <string name="kg">kg</string>
+    <string name="meter">m</string>
+    <string name="normal">normal</string>
+    <string name="fire">fire</string>
 </resources>

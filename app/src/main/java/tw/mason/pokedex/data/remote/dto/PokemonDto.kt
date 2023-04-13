@@ -3,6 +3,8 @@ package tw.mason.pokedex.data.remote.dto
 
 import com.google.gson.annotations.SerializedName
 import tw.mason.pokedex.domain.model.PokemonInfo
+import tw.mason.pokedex.domain.model.PokemonStats
+import tw.mason.pokedex.domain.model.PokemonType
 
 data class PokemonDto(
     val abilities: List<Ability>,
@@ -35,6 +37,18 @@ fun PokemonDto.toPokemonInfo(): PokemonInfo {
     return PokemonInfo(
         name = name,
         id = id,
-        imageUrl = sprites.frontDefault
+        imageUrl = sprites.frontDefault,
+        types = types.map {
+            PokemonType(
+                name = it.type.name
+            )
+        },
+        stats = stats.map {
+            PokemonStats(
+                name = it.stat.name
+            )
+        },
+        wight = weight,
+        height = height
     )
 }

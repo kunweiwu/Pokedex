@@ -66,7 +66,7 @@ class MainActivity : ComponentActivity() {
                             }
                         PokemonDetailScreen(
                             dominantColor = dominantColor,
-                            pokemonInfo = pokemonInfo.value,
+                            res = pokemonInfo.value,
                             popUp = {
                                 navController.popBackStack()
                             }
