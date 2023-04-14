@@ -2,9 +2,9 @@ package tw.mason.pokedex.data.repository
 
 import android.util.Log
 import tw.mason.pokedex.common.Results
+import tw.mason.pokedex.data.mappers.toPokemonInfo
 import tw.mason.pokedex.data.remote.PokeApi
 import tw.mason.pokedex.data.remote.dto.PokemonListDto
-import tw.mason.pokedex.data.remote.dto.toPokemonInfo
 import tw.mason.pokedex.domain.model.PokemonInfo
 import tw.mason.pokedex.domain.repository.PokemonRepository
 

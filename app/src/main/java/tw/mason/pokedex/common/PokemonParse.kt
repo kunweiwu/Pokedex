@@ -4,7 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import tw.mason.pokedex.R
-import tw.mason.pokedex.domain.model.PokemonStats
+import tw.mason.pokedex.domain.model.PokemonStat
 import tw.mason.pokedex.domain.model.PokemonType
 import tw.mason.pokedex.presentation.ui.theme.*
 import java.util.*
@@ -34,7 +34,7 @@ fun parseTypeToColor(type: PokemonType): Color {
     }
 }
 
-fun parseStatToColor(stat: PokemonStats): Color {
+fun parseStatToColor(stat: PokemonStat): Color {
     return when(stat.name.lowercase(Locale.ROOT)) {
         "hp" -> HPColor
         "attack" -> AtkColor
@@ -46,7 +46,7 @@ fun parseStatToColor(stat: PokemonStats): Color {
     }
 }
 
-fun parseStatToAbbr(stat: PokemonStats): String {
+fun parseStatToAbbr(stat: PokemonStat): String {
     return when(stat.name.lowercase(Locale.ROOT)) {
         "hp" -> "HP"
         "attack" -> "攻擊"

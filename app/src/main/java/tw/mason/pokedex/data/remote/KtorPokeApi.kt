@@ -16,6 +16,7 @@ import tw.mason.pokedex.data.remote.dto.PokemonListDto
 object KtorPokeApi: PokeApi {
 
     private val client = HttpClient(OkHttp) {
+        expectSuccess = true
         install(Logging) {
             level = LogLevel.ALL
         }
@@ -24,7 +25,6 @@ object KtorPokeApi: PokeApi {
                 protocol = URLProtocol.HTTPS
                 host = Constants.API_HOST
             }
-//            header("X-Custom-Header", "Hello")
         }
         install(ContentNegotiation) { gson() }
     }

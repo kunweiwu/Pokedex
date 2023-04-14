@@ -1,14 +1,10 @@
 package tw.mason.pokedex.presentation.pokemon_list
 
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.palette.graphics.Palette
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import tw.mason.pokedex.common.Constants.PAGE_SIZE
 import tw.mason.pokedex.common.Results
@@ -59,12 +55,13 @@ class PokemonListViewModel constructor(
     fun loadPokemonPaginated() {
         viewModelScope.launch {
             isLoading.value = true
+            delay(1000)
             val offset = currentPage * PAGE_SIZE
             val result = repository.getPokemon(PAGE_SIZE, offset)
             when (result) {
                 is Results.Success -> {
-                    endReached.value = offset >= result.data.count
-                    val pokedexEntries = result.data.results.mapIndexed { index, entry ->
+                    endReached.value = result.data.results.isEmpty()
+                    val pokedexEntries = result.data.results.map { entry ->
                         val number = if (entry.url.endsWith("/")) {
                             entry.url.dropLast(1).takeLastWhile { it.isDigit() }
                         } else {
@@ -85,16 +82,6 @@ class PokemonListViewModel constructor(
                 else -> {}
             }
             isLoading.value = false
-        }
-    }
-
-    fun calcDominantColor(drawable: Drawable, onFinished: (Color) -> Unit) {
-        val bmp = (drawable as BitmapDrawable).bitmap.copy(Bitmap.Config.ARGB_8888, true)
-
-        Palette.from(bmp).generate {
-            it?.dominantSwatch?.rgb?.let { colorValue ->
-                onFinished(Color(colorValue))
-            }
         }
     }
 

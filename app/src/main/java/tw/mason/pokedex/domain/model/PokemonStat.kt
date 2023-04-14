@@ -1,6 +1,6 @@
 package tw.mason.pokedex.domain.model
 
-data class PokemonStats(
+data class PokemonStat(
     val name: String,
     val baseStat: Int
 )

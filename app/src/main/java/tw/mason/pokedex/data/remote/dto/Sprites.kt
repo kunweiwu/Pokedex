@@ -12,8 +12,11 @@ data class Sprites(
     val backShiny: String,
     @SerializedName("back_shiny_female")
     val backShinyFemale: Any,
+
+    // Pokemon from the front in battle.
     @SerializedName("front_default")
     val frontDefault: String,
+
     @SerializedName("front_female")
     val frontFemale: Any,
     @SerializedName("front_shiny")
