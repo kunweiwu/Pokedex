@@ -18,7 +18,7 @@ interface PokemonDao {
     suspend fun upsertAll(pokemons: List<PokemonEntity>)
 
     @Query("SELECT * FROM pokemonentity")
-    fun paginSource(): PagingSource<Int, PokemonEntity>
+    fun pagingSource(): PagingSource<Int, PokemonEntity>
 
     @Query("DELETE FROM pokemonentity")
     suspend fun clearAll()

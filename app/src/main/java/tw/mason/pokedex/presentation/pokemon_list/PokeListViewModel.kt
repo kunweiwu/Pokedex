@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.map
 import tw.mason.pokedex.data.local.PokemonEntity
 import tw.mason.pokedex.data.mappers.toPokemon
 
-class PokeListViewModel constructor(
+class PokeListViewModel(
     pager: Pager<Int, PokemonEntity>
 ): ViewModel() {
 

@@ -38,7 +38,7 @@ val appModule = module {
                 api = KtorPokeApi
             ),
             pagingSourceFactory = {
-                db.dao.paginSource()
+                db.dao.pagingSource()
             }
         )
     }

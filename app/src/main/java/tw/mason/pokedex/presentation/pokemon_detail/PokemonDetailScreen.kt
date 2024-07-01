@@ -2,17 +2,37 @@ package tw.mason.pokedex.presentation.pokemon_detail
 
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material.Icon
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
@@ -33,7 +53,11 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import tw.mason.pokedex.R
-import tw.mason.pokedex.common.*
+import tw.mason.pokedex.common.Results
+import tw.mason.pokedex.common.getTypeString
+import tw.mason.pokedex.common.parseStatToAbbr
+import tw.mason.pokedex.common.parseStatToColor
+import tw.mason.pokedex.common.parseTypeToColor
 import tw.mason.pokedex.domain.model.PokemonInfo
 import tw.mason.pokedex.domain.model.PokemonType
 import kotlin.math.round
@@ -72,7 +96,7 @@ fun PokemonDetailScreen(
                 )
                 .shadow(10.dp, shape)
                 .clip(shape)
-                .background(MaterialTheme.colors.surface)
+                .background(MaterialTheme.colorScheme.surface)
                 .padding(16.dp)
                 .align(Alignment.BottomCenter),
             loadingModifier = Modifier
@@ -122,7 +146,7 @@ fun PokemonDetailTopSection(
             )
     ) {
         Icon(
-            imageVector = Icons.Default.ArrowBack,
+            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
             contentDescription = null,
             tint = Color.White,
             modifier = Modifier
@@ -142,7 +166,7 @@ fun PokemonDetailStateWrapper(
     when (res) {
         is Results.Loading -> {
             CircularProgressIndicator(
-                color = MaterialTheme.colors.primary,
+                color = MaterialTheme.colorScheme.primary,
                 modifier = loadingModifier
             )
         }
@@ -180,7 +204,7 @@ fun PokemonDetailSection(
             fontWeight = FontWeight.Bold,
             fontSize = 30.sp,
             textAlign = TextAlign.Center,
-            color = MaterialTheme.colors.onSurface
+            color = MaterialTheme.colorScheme.onSurface
         )
         PokemonTypeSection(types = pokemonInfo.types)
         PokemonDetailDataSection(
@@ -258,9 +282,9 @@ fun PokemonDetailDataItem(
         verticalArrangement = Arrangement.Center,
         modifier = modifier
     ) {
-        Icon(painter = dataIcon, contentDescription = null, tint = MaterialTheme.colors.onSurface)
+        Icon(painter = dataIcon, contentDescription = null, tint = MaterialTheme.colorScheme.onSurface)
         Spacer(modifier = Modifier.height(8.dp))
-        Text(text = "$dataValue $dataUnit", color = MaterialTheme.colors.onSurface)
+        Text(text = "$dataValue $dataUnit", color = MaterialTheme.colorScheme.onSurface)
     }
 }
 
@@ -330,7 +354,7 @@ fun PokemonBaseStats(
         Text(
             text = stringResource(id = R.string.base_stats),
             fontSize = 18.sp,
-            color = MaterialTheme.colors.onSurface
+            color = MaterialTheme.colorScheme.onSurface
         )
         Spacer(modifier = Modifier.height(4.dp))
 
